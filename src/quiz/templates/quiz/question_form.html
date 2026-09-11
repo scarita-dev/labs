@@ -1,0 +1,27 @@
+{% extends "quiz/base.html" %}
+{% block title %}Nueva pregunta{% endblock %}
+{% block content %}
+<h2>Nueva pregunta para: {{ exam.title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h4>Pregunta</h4>
+    {{ form.as_p }}
+
+    <h4>Opciones</h4>
+    {{ formset.management_form }}
+    <table class="table">
+        {% for f in formset %}
+            <tr>
+                <td>{{ f.text }}</td>
+                <td>{{ f.is_correct }} correcta</td>
+                <td>{% if f.instance.pk %}{{ f.DELETE }} borrar{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'quiz:exam_detail' exam.pk %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

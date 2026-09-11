@@ -1,0 +1,15 @@
+{% extends "quiz/base.html" %}
+{% block title %}Exámenes{% endblock %}
+{% block content %}
+<h2>Exámenes</h2>
+<ul class="list-group">
+    {% for exam in exams %}
+        <li class="list-group-item">
+            <a href="{% url 'quiz:exam_detail' exam.pk %}">{{ exam.title }}</a>
+            <small class="text-muted">— {{ exam.created_at|date:"d/m/Y H:i" }}</small>
+        </li>
+    {% empty %}
+        <li class="list-group-item">No hay exámenes registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "quiz/base.html" %}
+{% block title %}{{ exam.title }}{% endblock %}
+{% block content %}
+<h2>{{ exam.title }}</h2>
+<p>{{ exam.description }}</p>
+<a href="{% url 'quiz:question_create' exam.pk %}" class="btn btn-primary mb-3">+ Nueva pregunta</a>
+
+{% for question in exam.questions.all %}
+    <div class="card mb-3">
+        <div class="card-header">
+            <strong>{{ question.text }}</strong> ({{ question.score }} pts)
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for choice in question.choices.all %}
+                <li class="list-group-item">
+                    {% if choice.is_correct %}✅{% else %}⬜{% endif %}
+                    {{ choice.text }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% empty %}
+    <p>Este examen no tiene preguntas aún.</p>
+{% endfor %}
+{% endblock %}
